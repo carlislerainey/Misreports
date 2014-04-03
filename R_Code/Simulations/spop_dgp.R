@@ -1,3 +1,5 @@
+setwd("~/Dropbox/Projects/Misreports)
+
 n.iter <- 400
 
 res <- array(NA, dim = c(n.iter, 4, 3))
@@ -80,7 +82,7 @@ m.inits <- function () {
     delta0 = runif(1))
   }
 
-write(file = "model_ex.bugs",
+write(file = "BUGS/model_ex.bugs",
   "model {
     # INDIVIDUAL LEVEL MODEL
     for (i in 1:n)  {
@@ -110,7 +112,7 @@ write(file = "model_ex.bugs",
 )
 
 library(R2jags)
-  m.bayes <- jags(model.file = "model_ex.bugs",
+  m.bayes <- jags(model.file = "BUGS/model_ex.bugs",
     data = m.data,
     inits = m.inits,
     parameters.to.save = m.parameters,
@@ -188,8 +190,6 @@ sd(res[, 3, 2])
 
 library(compactr)
 
-
-setwd("~/Dropbox/Modeling Self-Reported Vote Choice")
 pdf("Figures/sims_pobs_correct.pdf", height = 1.5, width = 8)
 par(mfrow = c(1, 4), oma = c(3,3,1,1), mar = rep(.5, 4))
 eplot(xlim = mm(c(d.naive$x, d.simple$x, d.interaction$x, d.pobs$x)),

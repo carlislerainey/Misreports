@@ -1,6 +1,6 @@
 rm(list = ls())
 
-setwd("~/Dropbox/Modeling Self-Reported Vote Choice")
+setwd("~/Dropbox/Projects/Misreports/")
 
 
 pdf("Figures/incumbency_rep.pdf", height = 3, width = 9)
@@ -8,8 +8,8 @@ library(R2jags)
 library(foreign)
 library(arm)
 
-house.exit <- read.dta("Data/US_92_exit_polls.dta")
-nes92 <- read.dta("Data/Carlisle_1992_ANES_supplemented.dta")
+house.exit <- read.dta("Data/House_ExitPolls_1992.dta")
+nes92 <- read.dta("Data/ANES_1992.dta")
 
 nes92$Rep_win <- 1*(nes92$rv > nes92$dv)
 nes92$Dem_win <- 1*(nes92$rv < nes92$dv)
@@ -163,7 +163,7 @@ m.inits <- function () {
     delta0 = runif(1)) #rnorm(1))
   }
 
-write(file = "model.bugs",
+write(file = "BUGS/model.bugs",
   "model {
     # INDIVIDUAL LEVEL MODEL
     for (i in 1:n)  {
@@ -198,7 +198,7 @@ write(file = "model.bugs",
   }"
 )
 
-  m <- jags(model.file = "model.bugs",
+  m <- jags(model.file = "BUGS/model.bugs",
     data = m.data,
     inits = m.inits,
     parameters.to.save = m.parameters,
@@ -390,7 +390,7 @@ m.inits <- function () {
     delta0 = runif(1)) #rnorm(1))
   }
 
-write(file = "model.bugs",
+write(file = "BUGS/model.bugs",
   "model {
     # INDIVIDUAL LEVEL MODEL
     for (i in 1:n)  {
@@ -425,7 +425,7 @@ write(file = "model.bugs",
   }"
 )
 
-  m <- jags(model.file = "model.bugs",
+  m <- jags(model.file = "BUGS/model.bugs",
     data = m.data,
     inits = m.inits,
     parameters.to.save = m.parameters,
@@ -461,8 +461,8 @@ library(R2jags)
 library(foreign)
 library(arm)
 
-house.exit <- read.dta("Data/US_92_exit_polls.dta")
-nes92 <- read.dta("Data/Carlisle_1992_ANES_supplemented.dta")
+house.exit <- read.dta("Data/House_ExitPolls_1992.dta")
+nes92 <- read.dta("Data/ANES_1992.dta")
 
 nes92$Rep_win <- 1*(nes92$rv > nes92$dv)
 nes92$Dem_win <- 1*(nes92$rv < nes92$dv)
@@ -617,7 +617,7 @@ m.inits <- function () {
     delta0 = runif(1)) #rnorm(1))
   }
 
-write(file = "model.bugs",
+write(file = "BUGS/model.bugs",
   "model {
     # INDIVIDUAL LEVEL MODEL
     for (i in 1:n)  {
@@ -652,7 +652,7 @@ write(file = "model.bugs",
   }"
 )
 
-  m <- jags(model.file = "model.bugs",
+  m <- jags(model.file = "BUGS/model.bugs",
     data = m.data,
     inits = m.inits,
     parameters.to.save = m.parameters,
@@ -847,7 +847,7 @@ m.inits <- function () {
     delta0 = runif(1)) #rnorm(1))
   }
 
-write(file = "model.bugs",
+write(file = "BUGS/model.bugs",
   "model {
     # INDIVIDUAL LEVEL MODEL
     for (i in 1:n)  {
@@ -882,7 +882,7 @@ write(file = "model.bugs",
   }"
 )
 
-  m <- jags(model.file = "model.bugs",
+  m <- jags(model.file = "BUGS/model.bugs",
     data = m.data,
     inits = m.inits,
     parameters.to.save = m.parameters,
