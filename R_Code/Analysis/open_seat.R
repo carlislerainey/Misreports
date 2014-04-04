@@ -3,6 +3,7 @@ rm(list = ls())
 # load packages 
 library(arm)
 library(compactr)
+library(foreign)
 
 setwd("~/Dropbox/Projects/Misreports/")
 nes.house <- read.dta("Data/NES_House_misreport.dta")
@@ -10,8 +11,9 @@ nes.senate <- read.dta("Data/NES_Senate_misreport.dta")
 ses.house <- read.dta("Data/SES_House_misreport.dta")
 ses.senate <- read.dta("Data/SES_Senate_misreport.dta")
 
+pdf("Figures/open_seat.pdf", height = 4.5, width = 4.5)
 par(mfrow = c(3,1), mar = rep(0.75, 4), oma = c(3,4,1,1))
-nudge <- .3
+nudge <- .4
 
 # Senate
 eplot(xlim = c(1988, 2008), ylim = c(-5, 10),
@@ -46,8 +48,8 @@ for (i in c(1988, 1990, 1992)) {
   points(i + nudge, est, cex = .8, col = "red", pch = 21, bg = "white")
   
 }
-legend(x = 1987.5, y = 10.5, legend = c("NES", "SES"), lty = 1, bg = NA, 
-       box.lwd = 0, pch = c(19, 21), pt.bg = "white", col = c("black", "red"),
+legend(x = 1987.25, y = 10.5, legend = c("NES", "SES"), lty = 1, bg = NA, 
+       box.lwd = NA, pch = c(19, 21), pt.bg = "white", col = c("black", "red"),
        cex = .8)
 
 # House
@@ -109,3 +111,4 @@ for (i in c(1988, 1990, 1992)) {
   points(i + nudge, est, cex = .8, col = "red", pch = 21, bg = "white")
   
 }
+dev.off()
