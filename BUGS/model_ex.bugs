@@ -1,0 +1,26 @@
+model {
+    # INDIVIDUAL LEVEL MODEL
+    for (i in 1:n)  {
+      y[i] ~ dbin(p.bound[i], n.trials[i])
+      p.bound[i] <- max(0, min(1, p.say.rep[i]))
+      p.say.rep[i] <- p.honest[i]*p.vote.rep[i] + p.rep[i]
+      
+      logit(p.vote.rep[i]) <- Xbeta[i]
+      p.honest[i] <- 1 - p.dem[i] - p.rep[i]
+      p.dem[i] <- exp(Zgamma[i])/(1 + exp(Zgamma[i]) + exp(Zdelta[i]))
+      p.rep[i] <- exp(Zdelta[i])/(1 + exp(Zgamma[i]) + exp(Zdelta[i]))
+
+      Xbeta[i] <- beta0 + beta1*x1[i] + beta3*x3[i]
+      Zgamma[i] <- log(gamma0) + t.rep[i]
+      Zdelta[i] <- log(delta0) + t.dem[i]      
+    }
+    logit(pr0) <- beta0
+    logit(pr1) <- beta0 + beta3
+    fd <- pr1 - pr0  
+    # PRIORS
+    beta0 ~ dnorm(0, .001)
+    beta1 ~ dnorm(0, .001)
+    beta3 ~ dnorm(0, .001)
+    gamma0 ~ dbeta(1.2, 1.2)
+    delta0 ~ dbeta(1.2, 1.2)
+  }

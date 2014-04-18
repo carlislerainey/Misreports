@@ -1,0 +1,32 @@
+model {
+    # INDIVIDUAL LEVEL MODEL
+    for (i in 1:n)  {
+      Rep_House_vote[i] ~ dbin(p.bound[i], n.trials[i])
+      p.say.rep[i] <- p.honest[i]*p.vote.rep[i] + p.rep[i]
+      p.bound[i] <- max(0, min(1, p.say.rep[i]))
+
+      logit(p.vote.rep[i]) <- Xbeta[i]
+      p.honest[i] <- 1 - p.dem[i] - p.rep[i]
+      p.dem[i] <- 1/(1 + exp(-Zgamma[i]) + exp(-Zdelta[i]))
+      p.rep[i] <- 1/(1 + exp(-Zgamma[i]) + exp(-Zdelta[i]))
+
+      Xbeta[i] <- beta0 + beta1*Rep_pid[i] + beta2*Dem_pid[i] +
+        beta3*Rep_House_inc[i] + beta4*Dem_House_inc[i] + 
+        beta5*Bush_vote[i] + beta6*Clinton_vote[i]
+      Zgamma[i] <- log(gamma0) + Rep_time[i]
+      Zdelta[i] <- log(delta0) + Dem_time[i]      
+    }
+    logit(pr0) <- beta0 + beta1 + beta6
+    logit(pr1) <- beta0 + beta1 + beta5
+    fd <- pr1 - pr0
+    # PRIORS
+    beta0 ~ dnorm(0, .01)
+    beta1 ~ dnorm(0, .01)
+    beta2 ~ dnorm(0, .01)
+    beta3 ~ dnorm(0, .01)
+    beta4 ~ dnorm(0, .01)
+    beta5 ~ dnorm(0, .01)
+    beta6 ~ dnorm(0, .01)
+    gamma0 ~ dbeta(1.2, 1.2)
+    delta0 ~ dbeta(1.2, 1.2)
+  }
