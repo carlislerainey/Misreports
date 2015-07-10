@@ -1,0 +1,6 @@
+*~
+.*
+*.DS_Store
+*.Rhistory
+Old_Files/
+!.gitignore
